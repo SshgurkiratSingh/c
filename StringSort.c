@@ -8,13 +8,8 @@ int main(){
 	scanf("%d",&n);
 		char s[n][20];
 	for (int i=0;i<n;i++){
-		printf("\nEnter %d's string:",i);
+		printf("\nEnter %d's string:",i+1);
 		scanf("%s",s[i]);
-	}
-
-	printf("\nIntial order of the entered elements: \n");
-	for (int i = 0; i < 5; ++i){
-		printf("%s\n",s[i]);
 	}
 	char temp[50];
 	for(int i = 0; i < n; ++i){
