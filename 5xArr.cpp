@@ -1,7 +1,14 @@
 #include <stdio.h>
 
 void fivex(int *ptr, int num);
-
+void recursiveFivex(int *arr,int curr){
+if (curr>=0){
+    printf("5x of the %d is %d\t", arr[curr], 5 * arr[curr]);
+    recursiveFivex(arr,curr-1);
+}
+else 
+return ;
+}
 int main() {
     int arr[5];
 
@@ -10,7 +17,7 @@ int main() {
         scanf("%d", &arr[i]);
     }
 
-    fivex(arr, 5);
+    recursiveFivex(arr, 4);
 
     return 0;
 }
