@@ -14,7 +14,7 @@ int main()
 	if (age_days < 0)
 	{
 		age_months--;
-		age_days += 30; // assuming 30 days in a month
+		age_days += 30; 
 	}
 	if (age_months < 0)
 	{
