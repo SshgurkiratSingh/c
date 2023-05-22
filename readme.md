@@ -5,3 +5,4 @@ This repository contains C programs from a computer lab. The programs are meant 
 Please note that programs with the prefix "inComp" indicate that they require fixing.
 
 - matrixMultiplication is done without recursion but works fine as expected
+- Program not uploaded that were before periodical
