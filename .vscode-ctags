@@ -1,0 +1,63 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/gurkirat/Projects/c/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	//
+COUNT_LIMIT	POSIX/mutex.c	/^#define COUNT_LIMIT /;"	d	file:
+NUM_THREADS	POSIX/mutex.c	/^#define NUM_THREADS /;"	d	file:
+communication_thread	POSIX/set_comm.c	/^void *communication_thread(void *arg)$/;"	f	typeref:typename:void *
+count	POSIX/mutex.c	/^int count = 0;$/;"	v	typeref:typename:int
+countDigit	countNoOfDigitUsingRecursion.cpp	/^int countDigit(int n){$/;"	f	typeref:typename:int
+decToBin	convertDecimalToBinary.cpp	/^int decToBin(int n){$/;"	f	typeref:typename:int
+fibDig	FibonacciSequence.cpp	/^int fibDig(int a){$/;"	f	typeref:typename:int
+fivex	5xArr.cpp	/^void fivex(int *ptr, int num) {$/;"	f	typeref:typename:void
+main	2x2MarixSubtraction.cpp	/^ int main()$/;"	f	typeref:typename:int
+main	2x2MatrixSum.cpp	/^ int main()$/;"	f	typeref:typename:int
+main	3x3MAtrixSum.cpp	/^ int main()$/;"	f	typeref:typename:int
+main	3x3MatrixSubtraction.cpp	/^ int main()$/;"	f	typeref:typename:int
+main	5xArr.cpp	/^int main() {$/;"	f	typeref:typename:int
+main	DisplayArrInRev.cpp	/^int main()$/;"	f	typeref:typename:int
+main	FibonacciSequence.cpp	/^int main(){$/;"	f	typeref:typename:int
+main	MQTT/mqtt_pub.c	/^int main(int argc, char *argv[])$/;"	f	typeref:typename:int
+main	MQTT/mqtt_sub.c	/^int main(int argc, char *argv[])$/;"	f	typeref:typename:int
+main	POSIX/mutex.c	/^int main()$/;"	f	typeref:typename:int
+main	POSIX/set_comm.c	/^int main()$/;"	f	typeref:typename:int
+main	PascalTriangle.cpp	/^int main(){$/;"	f	typeref:typename:int
+main	StringSort.c	/^int main(){$/;"	f	typeref:typename:int
+main	VoweltoUpperInString.cpp	/^int main() {$/;"	f	typeref:typename:int
+main	ageCalculator.cpp	/^int main()$/;"	f	typeref:typename:int
+main	arrayInReverse.cpp	/^int main()$/;"	f	typeref:typename:int
+main	arraySortInAscending.cpp	/^int main()$/;"	f	typeref:typename:int
+main	averageOfnNumber.cpp	/^int main()$/;"	f	typeref:typename:int
+main	checkHexadecimal.cpp	/^int main()$/;"	f	typeref:typename:int
+main	convertDecimalToBinary.cpp	/^int main(){$/;"	f	typeref:typename:int
+main	countNoOfDigitUsingRecursion.cpp	/^int main(){$/;"	f	typeref:typename:int
+main	countVowelAndconsonants.cpp	/^int main()$/;"	f	typeref:typename:int
+main	cubeOfNumber.cpp	/^int main()$/;"	f	typeref:typename:int
+main	findMinAndMaxInArray.cpp	/^int main(){$/;"	f	typeref:typename:int
+main	matrixMultiplication.cpp	/^int main(){ $/;"	f	typeref:typename:int
+main	primeFactor.cpp	/^int main()$/;"	f	typeref:typename:int
+main	recursivePalindromeString.c	/^int main(){$/;"	f	typeref:typename:int
+main	recursivePower.cpp	/^int main(){$/;"	f	typeref:typename:int
+main	removeCfromString.cpp	/^int main(){$/;"	f	typeref:typename:int
+main	repeatedCharInString.cpp	/^int main()$/;"	f	typeref:typename:int
+main	rootOfQuadraticEq.cpp	/^int main()$/;"	f	typeref:typename:int
+main	stringPrint.cpp	/^int main()$/;"	f	typeref:typename:int
+main	stringToLowercase.cpp	/^int main(void)$/;"	f	typeref:typename:int
+main	sumOfNdigitandPrinteach.cpp	/^int main()$/;"	f	typeref:typename:int
+matrixMultiply	matrixMultiplication.cpp	/^int matrixMultiply(int a[2][2], int b[2][2]){$/;"	f	typeref:typename:int
+mutex	POSIX/mutex.c	/^pthread_mutex_t mutex;$/;"	v	typeref:typename:pthread_mutex_t
+mutex	POSIX/set_comm.c	/^pthread_mutex_t mutex;$/;"	v	typeref:typename:pthread_mutex_t
+on_connect	MQTT/mqtt_sub.c	/^void on_connect(struct mosquitto *mosq, void *obj, int result)$/;"	f	typeref:typename:void
+on_message	MQTT/mqtt_sub.c	/^void on_message(struct mosquitto *mosq, void *obj, const struct mosquitto_message *message)$/;"	f	typeref:typename:void
+palindromeCheck	recursivePalindromeString.c	/^int palindromeCheck(char *str,int cur,int end){$/;"	f	typeref:typename:int
+powerCalculator	recursivePower.cpp	/^int powerCalculator(int a,int b){$/;"	f	typeref:typename:int
+recursiveFivex	5xArr.cpp	/^void recursiveFivex(int *arr,int curr){$/;"	f	typeref:typename:void
+thread_function	POSIX/mutex.c	/^void *thread_function(void *arg)$/;"	f	typeref:typename:void *
+write_to_log	POSIX/set_comm.c	/^void write_to_log(const char *message)$/;"	f	typeref:typename:void
