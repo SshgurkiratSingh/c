@@ -1,0 +1,1 @@
+savedcmd_/home/gurkirat/Documents/c/Modules/mymodule.mod := printf '%s\n'   mymodule.o | awk '!x[$$0]++ { print("/home/gurkirat/Documents/c/Modules/"$$0) }' > /home/gurkirat/Documents/c/Modules/mymodule.mod

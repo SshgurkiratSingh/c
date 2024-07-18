@@ -1,0 +1,1 @@
+savedcmd_/home/gurkirat/Documents/c/Modules/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/gurkirat/Documents/c/Modules/Module.symvers -T /home/gurkirat/Documents/c/Modules/modules.order -i Module.symvers -e 
