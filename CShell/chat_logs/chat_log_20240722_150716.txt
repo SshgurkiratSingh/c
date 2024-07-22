@@ -1,9 +1,0 @@
-
-[2024-07-22 15:07:39] User: enble ssh-server
-[2024-07-22 15:07:39] AI: To enable the SSH server on your Zorin OS, you'll need to install the OpenSSH server package if it's not already installed. Then, you can start and enable the SSH service to run on system startup.
-
-First, let’s install the OpenSSH server package. I will show you the command to do that.
-
-[EXECUTE] sudo apt update && sudo apt install openssh-server [/EXECUTE]
-
-This command will update your package list and install the OpenSSH server. Please run it, and let me know if you need further assistance after that.
