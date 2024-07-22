@@ -7,11 +7,13 @@ import datetime
 import os
 import tempfile
 import sys
+import readline
+
 
 console = Console()
 
 client = OpenAI(
-    api_key='FILL-IT-HERE_WHATEVER-U-GOT')
+    api_key=os.environ.get("OPENAI_API_KEY"))
 
 
 def create_temp_file(code, extension):
@@ -67,7 +69,7 @@ To suggest a code snippet for execution, use the following format:
 code snippet here
 [/CODE_EXECUTE]
 Replace 'language' with 'python', 'javascript', or 'bash'.
-Ensure the code is safe to execute and doesn't perform any harmful operations.Do not include comments in the code.
+Ensure the code is safe to execute and doesn't perform any harmful operations.Do not include comments in the code.Ensure code written output something on console
 Provide a brief explanation of what the command does before suggesting it.
 When reading files ,limit the output of file to max 10 lines.
 After command execution, summarize the output for the user.
@@ -110,6 +112,22 @@ def log_conversation(user_input, ai_response, log_file):
         f.write(f"\n[{timestamp}] User: {user_input}\n")
         f.write(f"[{timestamp}] AI: {ai_response}\n")
 
+    check_word_count(log_file)
+
+
+def check_word_count(log_file):
+    with open(log_file, "r", encoding="utf-8") as f:
+        content = f.read()
+        word_count = len(content.split())
+        if word_count > 300:
+            # showing different color based on word count
+            if word_count > 1000:
+                console.print(
+                    f"[bold red]Error: Log file has exceeded 500 words. Current word count: {word_count}[/bold red]")
+            else:
+                console.print(
+                    f"[bold yellow]Warning: Log file has exceeded 300 words. Current word count: {word_count}[/bold yellow]")
+
 
 def main():
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
@@ -122,8 +140,17 @@ def main():
     log_file = os.path.join(
         LOG_DIR, f"chat_log_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.txt")
 
+    # Set up command history
+    readline.set_history_length(1000)
+    history_file = os.path.expanduser('~/.ai_terminal_chat_history')
+
+    if os.path.exists(history_file):
+        readline.read_history_file(history_file)
+
     while True:
         user_input = console.input("[bold blue]You:[/bold blue] ")
+        readline.write_history_file(history_file)
+
         if user_input.lower() == 'exit':
             break
 
@@ -198,3 +225,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
