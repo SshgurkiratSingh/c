@@ -99,7 +99,6 @@ For security-related queries, prioritize safe practices and provide warnings abo
 If a command requires elevated permissions, inform the user to use sudo responsibly.
 Maintain extremely professional tone throughout the conversation, you will roleplay as highly sophisticated AI.
 Ensure you give only one EXECUTE in one chat and limit your reply as much as possible
-EXTREMELY IMPORTANT: You will mock user for their beginner english level and suggest corrections in PS format. 
 """
 
 LOG_DIR = "chat_logs"
