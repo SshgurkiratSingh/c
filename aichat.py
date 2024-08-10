@@ -15,7 +15,6 @@ import readline
 import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
-
 safety_settings = {
     HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
     HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
@@ -67,7 +66,6 @@ def execute_code_snippet(code, language):
         return f"An unexpected error occurred: {str(e)}"
 
 
-# System prompt for the AI
 SYSTEM_PROMPT = """
 You are an AI assistant capable of chatting with users and executing terminal commands upon request. Your capabilities include:
 Answering user queries
@@ -101,6 +99,7 @@ For security-related queries, prioritize safe practices and provide warnings abo
 If a command requires elevated permissions, inform the user to use sudo responsibly.
 Maintain extremely professional tone throughout the conversation, you will roleplay as highly sophisticated AI.
 Ensure you give only one EXECUTE in one chat and limit your reply as much as possible
+EXTREMELY IMPORTANT: You will mock user for their beginner english level and suggest corrections in PS format. 
 """
 
 LOG_DIR = "chat_logs"
@@ -145,22 +144,18 @@ def log_conversation(user_input, ai_response, log_file):
 
 
 def format_ai_response(ai_response):
-    # Function to format EXECUTE blocks
     def format_execute(match):
         command = match.group(1).strip()
         return f"\n[bold yellow]EXECUTE:[/bold yellow]\n{Panel(Syntax(command, 'bash', theme='monokai'), box=box.ROUNDED)}\n"
 
-    # Function to format CODE_EXECUTE blocks
     def format_code_execute(match):
         language = match.group(1)
         code = match.group(2).strip()
         return f"\n[bold yellow]CODE_EXECUTE ({language}):[/bold yellow]\n{Panel(Syntax(code, language, theme='monokai'), box=box.ROUNDED)}\n"
 
-    # Replace EXECUTE blocks
     ai_response = re.sub(r'\[EXECUTE\](.*?)\[/EXECUTE\]',
                          format_execute, ai_response, flags=re.DOTALL)
 
-    # Replace CODE_EXECUTE blocks
     ai_response = re.sub(r'\[CODE_EXECUTE:(\w+)\](.*?)\[/CODE_EXECUTE\]',
                          format_code_execute, ai_response, flags=re.DOTALL)
 
@@ -172,13 +167,76 @@ def check_word_count(log_file):
         content = f.read()
         word_count = len(content.split())
         if word_count > 300:
-            # showing different color based on word count
             if word_count > 1000:
                 console.print(
                     f"[bold red]Error: Log file has exceeded 500 words. Current word count: {word_count}[/bold red]")
             else:
                 console.print(
                     f"[bold yellow]Warning: Log file has exceeded 300 words. Current word count: {word_count}[/bold yellow]")
+
+
+def execute_command_or_code(content, is_code=False):
+    if is_code:
+        language_start = content.index("[CODE_EXECUTE:") + 14
+        language_end = content.index("]", language_start)
+        language = content[language_start:language_end].strip().lower()
+        code_start = language_end + 1
+        code_end = content.index("[/CODE_EXECUTE]")
+        code = content[code_start:code_end].strip()
+
+        user_permission = console.input(
+            f"[bold yellow]AI wants to execute {language} code. Allow? (y/n):[/bold yellow] ")
+
+        if user_permission.lower() == 'y':
+            output = execute_code_snippet(code, language)
+            console.print(
+                Panel.fit(output, title="[bold cyan]Code Execution Output[/bold cyan]"))
+            return output, True
+        else:
+            console.print("Code execution denied.", style="bold red")
+            return "Code execution denied.", False
+    else:
+        command_start = content.index("[EXECUTE]") + 9
+        command_end = content.index("[/EXECUTE]")
+        command = content[command_start:command_end].strip()
+
+        user_permission = console.input(
+            f"[bold yellow]AI wants to execute:[/bold yellow] {command}\n[bold yellow]Allow? (y/n):[/bold yellow] ")
+
+        if user_permission.lower() == 'y':
+            output = execute_command(command)
+            console.print(
+                Panel.fit(output, title="[bold cyan]Command Execution Output[/bold cyan]"))
+            return output, True
+        else:
+            console.print("Command execution denied.", style="bold red")
+            return "Command execution denied.", False
+
+
+def process_ai_response(ai_response, messages, log_file):
+    execution_requested = False
+
+    while "[CODE_EXECUTE:" in ai_response and "[/CODE_EXECUTE]" in ai_response or "[EXECUTE]" in ai_response and "[/EXECUTE]" in ai_response:
+        if "[CODE_EXECUTE:" in ai_response and "[/CODE_EXECUTE]" in ai_response:
+            output, executed = execute_command_or_code(
+                ai_response, is_code=True)
+        elif "[EXECUTE]" in ai_response and "[/EXECUTE]" in ai_response:
+            output, executed = execute_command_or_code(
+                ai_response, is_code=False)
+
+        if executed:
+            execution_requested = True
+            messages.append(
+                {"role": "system", "content": f"Execution output: {output}"})
+            log_conversation("Execution output", output, log_file)
+
+            ai_response = chat_with_ai(messages)
+            console.print(
+                Panel.fit(Markdown(f"\n\n{ai_response}"), title="[bold purple]AI:[/bold purple]"))
+        else:
+            break
+
+    return ai_response, execution_requested
 
 
 def main():
@@ -201,6 +259,9 @@ def main():
 
     if os.path.exists(history_file):
         readline.read_history_file(history_file)
+    if len(sys.argv) > 1:
+        initial_query = " ".join(sys.argv[1:])
+        process_query(initial_query, messages, use_gemini, log_file)
 
     while True:
         user_input = console.input("[bold blue]You:[/bold blue] ")
@@ -222,67 +283,31 @@ def main():
         console.print(
             Panel.fit(Markdown(f"\n\n{ai_response}"), title="[bold purple]AI:[/bold purple]"))
 
-        if "[CODE_EXECUTE:" in ai_response and "[/CODE_EXECUTE]" in ai_response:
-            start = ai_response.index("[CODE_EXECUTE:") + 14
-            language_end = ai_response.index("]", start)
-            language = ai_response[start:language_end].strip().lower()
-            code_start = language_end + 1
-            code_end = ai_response.index("[/CODE_EXECUTE]")
-            code = ai_response[code_start:code_end].strip()
-            syntax = Syntax(code, language)
-            console.print(syntax)
-            user_permission = console.input(
-                f"[bold yellow]AI wants to execute {language} code. Allow? (y/n):[/bold yellow] ")
+        ai_response, execution_requested = process_ai_response(
+            ai_response, messages, log_file)
 
-            if user_permission.lower() == 'y':
-
-                output = execute_code_snippet(code, language)
-                console.print(
-                    Panel.fit(output, title="[bold cyan]Code Execution Output[/bold cyan]"))
-                messages.append(
-                    {"role": "system", "content": f"Code execution output: {output}"})
-                summary = chat_with_ai(messages)
-                console.print(
-                    Panel.fit(Markdown(f"[bold green]AI summary:[/bold green]\n\n{summary}")))
-
-                log_conversation(
-                    f"[CODE_EXECUTE:{language}] {code}", output, log_file)
-                log_conversation("AI summary", summary, log_file)
-            else:
-                console.print("Code execution denied.", style="bold red")
-                log_conversation(
-                    f"[CODE_EXECUTE:{language} DENIED]", code, log_file)
-
-        elif "[EXECUTE]" in ai_response and "[/EXECUTE]" in ai_response:
-            start = ai_response.index("[EXECUTE]") + 9
-            end = ai_response.index("[/EXECUTE]")
-            command = ai_response[start:end].strip()
-
-            user_permission = console.input(
-                f"[bold yellow]AI wants to execute:[/bold yellow] {command}\n[bold yellow]Allow? (y/n):[/bold yellow] ")
-
-            if user_permission.lower() == 'y':
-                output = execute_command(command)
-                console.print(
-                    Panel.fit(output, title="[bold cyan]Command Execution Output[/bold cyan]"))
-                messages.append(
-                    {"role": "system", "content": f"Command output: {output}"})
-                summary = chat_with_ai(messages)
-                console.print(
-                    Panel.fit(Markdown(f"\n\n{summary}"), title="[bold green]AI summary:[/bold green]"))
-
-                log_conversation(f"[EXECUTE] {command}", output, log_file)
-                log_conversation("AI summary", summary, log_file)
-            else:
-                console.print("Command execution denied.", style="bold red")
-                log_conversation("[EXECUTE DENIED]", command, log_file)
-
-        messages.append({"role": "assistant", "content": ai_response})
+        if not execution_requested:
+            messages.append({"role": "assistant", "content": ai_response})
 
     console.print(
         f"Chat session ended. Log file saved to: {log_file}", style="bold green")
 
 
+def process_query(query, messages, use_gemini, log_file):
+    messages.append({"role": "user", "content": query})
+    ai_response = chat_with_ai(messages, use_gemini)
+
+    log_conversation(query, ai_response, log_file)
+
+    console.print(
+        Panel.fit(Markdown(f"\n\n{ai_response}"), title="[bold purple]AI:[/bold purple]"))
+
+    ai_response, execution_requested = process_ai_response(
+        ai_response, messages, log_file)
+
+    if not execution_requested:
+        messages.append({"role": "assistant", "content": ai_response})
+
+
 if __name__ == "__main__":
     main()
-
