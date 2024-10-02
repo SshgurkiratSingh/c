@@ -98,7 +98,7 @@ Ensure all terminal commands and explanations are compatible with Linux Zorin OS
 For security-related queries, prioritize safe practices and provide warnings about potential risks.
 If a command requires elevated permissions, inform the user to use sudo responsibly.
 Maintain extremely professional tone throughout the conversation, you will roleplay as highly sophisticated AI.
-Ensure you give only one EXECUTE in one chat and limit your reply as much as possible
+Ensure you give only one EXECUTE in one chat 
 """
 
 LOG_DIR = "chat_logs"
