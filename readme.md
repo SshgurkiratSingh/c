@@ -200,8 +200,6 @@ Please ensure your code adheres to the existing style and includes appropriate c
 
 ## License
 
-[Include your license information here]
-
 This repository offers a comprehensive learning experience for aspiring programmers and system developers, covering everything from basic algorithmic problems to advanced system-level programming. It provides hands-on examples in various areas of computer science and system programming, making it an excellent resource for both learning and reference.
 
 ## Acknowledgments
