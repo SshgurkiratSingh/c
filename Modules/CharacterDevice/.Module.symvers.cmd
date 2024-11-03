@@ -1,0 +1,1 @@
+savedcmd_/home/gurkirat/Projects/c/Modules/CharacterDevice/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/gurkirat/Projects/c/Modules/CharacterDevice/Module.symvers -T /home/gurkirat/Projects/c/Modules/CharacterDevice/modules.order -i Module.symvers -e 

@@ -82,8 +82,7 @@ int main(int argc, char *argv[])
     mosquitto_connect_callback_set(mosq, on_connect);
     mosquitto_message_callback_set(mosq, on_message);
 
-    // Connect to the MQTT broker (change "localhost" to your broker's address if necessary)
-    rc = mosquitto_connect(mosq, "localhost", 1883, 10);
+    rc = mosquitto_connect(mosq, "test.mosquitto.org", 1883, 10);
     if (rc)
     {
         printf("Error connecting: %s\n", mosquitto_strerror(rc));

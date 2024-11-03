@@ -1,0 +1,1 @@
+savedcmd_/home/gurkirat/Projects/c/Modules/DynamicMemoryKernel/char_device.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/gurkirat/Projects/c/Modules/DynamicMemoryKernel/char_device.ko /home/gurkirat/Projects/c/Modules/DynamicMemoryKernel/char_device.o /home/gurkirat/Projects/c/Modules/DynamicMemoryKernel/char_device.mod.o
