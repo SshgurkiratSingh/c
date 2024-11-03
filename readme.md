@@ -211,10 +211,6 @@ This repository offers a comprehensive learning experience for aspiring programm
 
 Explore the folders to find examples and detailed code for different functionalities.
 
-## License
-
-This project is licensed under the MIT License.
-
 ## Contributing
 
 Contributions are welcome! Please submit pull requests for any improvements or additions.
